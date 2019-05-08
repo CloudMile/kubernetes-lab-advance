@@ -88,6 +88,12 @@ spec:
       name: dummy-config
 ```
 
+Deploy Pod
+
+```
+kubectl apply -f pod-configmap.yaml
+```
+
 Check file.
 
 ```
@@ -102,7 +108,7 @@ kubectl delete -f pod-configmap.yaml
 
 ## Use secret as volume
 
-Create configmap
+Create Secret
 
 ```
 kubectl create secret generic dummy-secret --from-literal=foo=bar
@@ -130,6 +136,12 @@ spec:
   - name: test
     secret:
       secretName: dummy-secret
+```
+
+Deploy Pod
+
+```
+kubectl apply -f pod-secret.yaml
 ```
 
 Check file.
@@ -168,6 +180,12 @@ spec:
   - name: test
     hostPath:
       path: "/data/busybox-test"
+```
+
+Deploy Pod
+
+```
+kubectl apply -f pod-hostPath.yaml
 ```
 
 Add file.
@@ -221,6 +239,12 @@ spec:
           - path: "labels"
             fieldRef:
               fieldPath: metadata.labels
+```
+
+Deploy Pod
+
+```
+kubectl apply -f pod-downward.yaml
 ```
 
 Check logs.
@@ -314,7 +338,7 @@ kubectl apply -f pvc-2g.yaml
 Check persistent volumes status.
 
 ```
-kubectl get pvc,pc
+kubectl get pvc,pv
 ```
 
 Edit `pod-pvc.yaml`
