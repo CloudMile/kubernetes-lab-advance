@@ -12,11 +12,14 @@
 * [Lab 08 - L7 Load Balancer](lab-08.md)
 * [Lab 09 - Troubleshooting](lab-09.md)
 
+## Qwiklabs
+
 [Hello Node Kubernetes](https://www.qwiklabs.com/focuses/564?parent=catalog)
 
 [Orchestrating the Cloud with Kubernetes](https://google.qwiklabs.com/focuses/557?locale=en&parent=catalog)
 
-
 ## Requirement
 
-You need a Google Cloud Platform account.
+Software installation please follow the README: [Kubernetes Lab - Basic](https://github.com/CloudMile/kubernetes-lab-basic).
+
+If you don't have [Qwiklabs](qwiklabs.com) account, you can use your Google Cloud Platform account.
