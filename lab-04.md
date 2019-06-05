@@ -91,7 +91,7 @@ kubectl delete -f job.yaml
 kubectl apply -f job.yaml
 ```
 
-Delete job
+Delete Job
 
 ```
 kubectl delete -f job.yaml
@@ -130,6 +130,8 @@ kubectl get pods -w
 ```
 
 Wait 5 minutes.
+
+Delete CronJob
 
 ```
 kubectl delete -f cronjob.yaml
