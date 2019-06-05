@@ -85,7 +85,62 @@ Get Pod private IP
 kubectl get po -o wide
 ```
 
-## Add custom dns record
+## Add custom dns record with CoreDNS
+
+Get the corefile
+
+```
+kubectl get configmap coredns -n kube-system -o yaml > coredns.yaml
+```
+
+Edit `coredns.yaml`, change `CUSTOM_DNS_POD_IP`
+
+```
+apiVersion: v1
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream 8.8.8.8 8.8.4.4
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+        proxy . 8.8.8.8 8.8.4.4
+    }
+    acme.local:53 {
+      errors
+      cache 30
+      proxy . CUSTOM_DNS_POD_IP
+    }
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+```
+
+```
+kubectl apply -f coredns.yaml
+```
+
+Test
+
+```
+kubectl run -it dnsutils --image k8s.gcr.io/dnsutils --restart=Never --rm sh
+
+> dig www.acme.local
+```
+
+Reference: https://coredns.io/2017/07/23/corefile-explained/
+
+## Add custom dns record with kube-dns
 
 Edit `kube-dns.yaml`, change `CUSTOM_DNS_POD_IP`
 
@@ -111,13 +166,15 @@ Test
 ```
 kubectl run -it dnsutils --image k8s.gcr.io/dnsutils --restart=Never --rm sh
 
-dig www.acme.local
+> dig www.acme.local
 ```
 
 ## Clean
 
 ```
+kubectl delete -f pod.yaml
 kubectl delete -f cdns.yaml
 kubectl delete -f custom-dns.yaml
-kubectl delete -f kube-dns.yaml
+kubectl delete -f coredns.yaml # if exist
+kubectl delete -f kube-dns.yaml # if exist
 ```
