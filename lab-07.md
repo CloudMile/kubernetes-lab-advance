@@ -40,7 +40,7 @@ Get ip
 gcloud compute addresses describe helloweb-ip --region asia-east1 | grep address
 ```
 
-Edit `svc-lb.yaml`
+Edit `svc-lb.yaml`, change `REVERSE_STATIC_IP`
 
 ```
 apiVersion: v1
