@@ -1,6 +1,6 @@
 # Lab 03 - Using Statefulset
 
-Edit 'statefulset.yaml'
+Edit `statefulset.yaml`
 
 ```
 apiVersion: apps/v1beta1
@@ -46,8 +46,31 @@ kubectl get pods
 kubectl get pvc,pv
 ```
 
+See detail of statefulset
+
+```
+kubectl get pod web-0 -o yaml
+```
+
+Output
+
+```
+...
+  hostname: web-0
+  nodeName: minikube
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  subdomain: nginx
+...
+```
+
 ## Scale
 
+Scale replicas to 3
 ```
 kubectl scale statefulset web --replicas=3
 ```
@@ -59,6 +82,8 @@ kubectl get statefulset
 kubectl get pods
 kubectl get pvc,pv
 ```
+
+Scale replicas to 2
 
 ```
 kubectl scale statefulset web --replicas=2
@@ -74,7 +99,7 @@ kubectl get pvc,pv
 
 ## Headless service
 
-Edit `svc-headless.yaml`
+Edit `statefulset-svc.yaml`
 
 ```
 apiVersion: v1
@@ -92,17 +117,29 @@ spec:
     app: nginx
 ```
 
+Create headless service
+
+```
+kubectl create -f statefulset-svc.yaml
+```
+
 Check the DNS records.
 
 ```
-kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm /bin/sh
+kubectl run -it --image busybox:1.28 dns-test --restart=Never --rm /bin/sh
 
-nslookup nginx
-nslookup web-0.nginx
-nslookup web-1.nginx
+> nslookup nginx
+> nslookup web-0.nginx
+> nslookup web-1.nginx
 ```
 
 ## Delete pods
+
+Add file to statefulset
+```
+kubectl exec web-0 -- sh -c 'echo "Welcome to $(hostname)" > /usr/share/nginx/html/index.html'
+kubectl exec web-1 -- sh -c 'echo "Welcome to $(hostname)" > /usr/share/nginx/html/index.html'
+```
 
 In other terminal:
 
@@ -113,16 +150,16 @@ kubectl delete pod -l app=nginx
 Check the DNS records.
 
 ```
-kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm /bin/sh
+kubectl run -it --image busybox:1.28 dns-test --restart=Never --rm /bin/sh
 
-nslookup nginx
-nslookup web-0.nginx
-nslookup web-1.nginx
+> nslookup nginx
+> wget -qO- web-0.nginx
+> wget -qO- web-1.nginx
 ```
 
 ## Clean
 
 ```
-kubectl delete -f svc-headless.yaml
+kubectl delete -f statefulset-svc.yaml
 kubectl delete -f statefulset.yaml
 ```
