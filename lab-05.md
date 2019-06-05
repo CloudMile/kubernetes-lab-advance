@@ -2,6 +2,39 @@
 
 Qwiklabs: [Hello Node Kubernetes](https://www.qwiklabs.com/focuses/564?parent=catalog)
 
+## Note 1:
+
+For some commands, you will replcase `PROJECT_ID` with the prohect id.
+
+```
+docker build -t gcr.io/PROJECT_ID/hello-node:v1 .
+```
+
+In Cloud Shell, there're environment variables you can use, for example: `DEVSHELL_PROJECT_ID`.
+You can use below command instand of above command.
+
+```
+docker build -t gcr.io/$DEVSHELL_PROJECT_ID/hello-node:v1 .
+```
+
+## Note 2:
+
+In section __Roll out an upgrade to your service__, there's a typo.
+
+The command
+
+```
+docker push gcr.io/PROJECT_ID/hello-node:v1
+```
+
+should be
+
+```
+docker push gcr.io/PROJECT_ID/hello-node:v2
+```
+
+replcase `PROJECT_ID` with the prohect id, or use environment variable `DEVSHELL_PROJECT_ID`.
+
 ----
 
 Rrequirement
