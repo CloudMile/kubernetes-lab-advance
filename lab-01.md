@@ -321,6 +321,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: pvc-2g
 spec:
+  storageClassName: ""
   accessModes:
   - ReadWriteOnce
   selector:
@@ -400,6 +401,7 @@ kubectl exec -it busybox-pvc -c busy -- ls /busy
 kubectl delete configmaps dummy-config
 kubectl delete secret dummy-secret
 kubectl delete -f pod-pvc.yaml
+kubectl patch pvc pvc-2g -p '{"metadata":{"finalizers":null}}' # avoid delete task stuck
 kubectl delete -f pvc-2g.yaml
 kubectl delete -f pv-1g.yaml
 kubectl delete -f pv-3g.yaml
