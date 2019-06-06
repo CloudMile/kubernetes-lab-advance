@@ -91,6 +91,7 @@ Get the corefile
 
 ```
 kubectl get configmap coredns -n kube-system -o yaml > coredns.yaml
+cp coredns.yaml coredns-bak.yaml
 ```
 
 Edit `coredns.yaml`, change `CUSTOM_DNS_POD_IP`
@@ -175,6 +176,12 @@ kubectl run -it dnsutils --image k8s.gcr.io/dnsutils --restart=Never --rm sh
 kubectl delete -f pod.yaml
 kubectl delete -f cdns.yaml
 kubectl delete -f custom-dns.yaml
-kubectl delete -f coredns.yaml # if exist
-kubectl delete -f kube-dns.yaml # if exist
+
+# if use coredns
+kubectl apply -f coredns-bak.yaml
+kubectl delete -f coredns.yaml
+
+
+# if use kube-dns
+kubectl delete -f kube-dns.yaml
 ```
