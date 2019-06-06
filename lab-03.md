@@ -162,4 +162,5 @@ kubectl run -it --image busybox:1.28 dns-test --restart=Never --rm /bin/sh
 ```
 kubectl delete -f statefulset-svc.yaml
 kubectl delete -f statefulset.yaml
+kubectl delete pvc -l app=nginx
 ```
