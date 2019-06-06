@@ -179,7 +179,6 @@ kubectl delete -f custom-dns.yaml
 
 # if use coredns
 kubectl apply -f coredns-bak.yaml
-kubectl delete -f coredns.yaml
 
 
 # if use kube-dns
