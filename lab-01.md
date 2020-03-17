@@ -26,12 +26,12 @@ $ minikube start --wait=false
 
 The lab environemnt screenshot:
 
-![](lab01/lab01-01.png)
+![](katacoda/01.png)
 
 
 We can click mouse right on the `/root` to create new files:
 
-![](lab01/lab01-02.png)
+![](katacoda/02.png)
 
 ## Shared volume
 
