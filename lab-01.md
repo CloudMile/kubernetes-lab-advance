@@ -4,7 +4,7 @@ We use [KataCota](https://www.katacoda.com/) as playground.
 
 This lab is on the environment: [Deploy Containers Using YAML](https://www.katacoda.com/courses/kubernetes/creating-kubernetes-yaml-definitions).
 
-Click "START SCENARIO".
+Click "START SCENARIO". We will have __One Hour__ lab environment. After __Onre Hour__, we have to refresh browser to get new environment.
 
 The environment provide We need the editor and terminal. We need to wait the minibuke ready.
 
@@ -35,7 +35,9 @@ We can click mouse right on the `/root` to create new files:
 
 ## Shared volume
 
-Edit `pod-shared-volume.yaml`
+Create a new file `pod-shared-volume.yaml`
+
+The YAML describe 1 pod include 2 containers and the containers share the same volume.
 
 ```
 apiVersion: v1
@@ -65,7 +67,7 @@ spec:
     emptyDir: {}
 ```
 
-Deploy Pod
+Deploy Pod.
 
 ```
 kubectl apply -f pod-shared-volume.yaml
@@ -83,6 +85,12 @@ Check file in `box` container in Pod.
 kubectl exec -it busybox -c box -- ls /busy
 ```
 
+We should get output like:
+
+```
+foo
+```
+
 Delete Pod.
 
 ```
@@ -91,13 +99,13 @@ kubectl delete -f pod-shared-volume.yaml
 
 ## Use configmaps as volume
 
-Create configmap
+Create configmap `dummy-config`
 
 ```
 kubectl create configmap dummy-config --from-literal=foo=bar
 ```
 
-Edit `pod-configmap.yaml`
+Create a new file `pod-configmap.yaml`
 
 ```
 apiVersion: v1
@@ -121,16 +129,34 @@ spec:
       name: dummy-config
 ```
 
-Deploy Pod
+Deploy Pod.
 
 ```
 kubectl apply -f pod-configmap.yaml
 ```
 
-Check file.
+Check the file `foo` is exist.
 
 ```
 kubectl exec -it busybox-configmap -- ls /busy
+```
+
+We should get output like:
+
+```
+foo
+```
+
+Check the file `foo` contain `bar`.
+
+```
+kubectl exec -it busybox-configmap -- cat /busy/foo
+```
+
+We should get output like:
+
+```
+bar
 ```
 
 Delete Pod.
@@ -141,13 +167,13 @@ kubectl delete -f pod-configmap.yaml
 
 ## Use secret as volume
 
-Create Secret
+Create Secret `dummy-secret`
 
 ```
 kubectl create secret generic dummy-secret --from-literal=foo=bar
 ```
 
-Edit `pod-secret.yaml`
+Create a new file `pod-secret.yaml`
 
 ```
 apiVersion: v1
@@ -171,16 +197,34 @@ spec:
       secretName: dummy-secret
 ```
 
-Deploy Pod
+Deploy Pod.
 
 ```
 kubectl apply -f pod-secret.yaml
 ```
 
-Check file.
+Check file `foo` is exist.
 
 ```
 kubectl exec -it busybox-secret -- ls /busy
+```
+
+We should get output like:
+
+```
+foo
+```
+
+Check the file `foo` contain `bar`.
+
+```
+kubectl exec -it busybox-secret -- cat /busy/foo
+```
+
+We should get output like:
+
+```
+bar
 ```
 
 Delete Pod.
@@ -191,7 +235,7 @@ kubectl delete -f pod-secret.yaml
 
 ## Use hostPath
 
-Edit `pod-hostPath.yaml`
+Create a new file `pod-hostPath.yaml`
 
 ```
 apiVersion: v1
@@ -215,33 +259,70 @@ spec:
       path: "/data/busybox-test"
 ```
 
-Deploy Pod
+Deploy Pod.
 
 ```
 kubectl apply -f pod-hostPath.yaml
 ```
 
-Add file.
+Add file `foo` in the volume.
 
 ```
 kubectl exec -it busybox-hostpath -c busy -- touch /busy/foo
 ```
 
-Check file.
+Create a new file  `pod-hostPath2.yaml`
 
 ```
-minikube ssh -- ls /data/busybox-test
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-hostpath2
+  namespace: default
+spec:
+  containers:
+  - image: busybox
+    name: busy
+    command:
+    - sleep
+    - "3600"
+    volumeMounts:
+    - mountPath: /busy2
+      name: test
+  volumes:
+  - name: test
+    hostPath:
+      path: "/data/busybox-test"
+```
+
+Deploy Pod.
+
+```
+kubectl apply -f pod-hostPath2.yaml
+```
+
+Check file `foo` in the volume.
+
+```
+kubectl exec -it busybox-hostpath2 -c busy -- ls /busy2
+```
+
+We should get output like:
+
+```
+foo
 ```
 
 Delete Pod.
 
 ```
-kubectl delete -f pod-hostpath.yaml
+kubectl delete -f pod-hostPath.yaml
+kubectl delete -f pod-hostPath2.yaml
 ```
 
 ## Use Downward API
 
-Edit `pod-downward.yaml`
+Create a new file `pod-downward.yaml`
 
 ```
 apiVersion: v1
@@ -274,16 +355,22 @@ spec:
               fieldPath: metadata.labels
 ```
 
-Deploy Pod
+Deploy Pod.
 
 ```
 kubectl apply -f pod-downward.yaml
 ```
 
-Check logs.
+Check logs. (It might take few seconds)
 
 ```
 kubectl logs busybox-downward
+```
+
+We should get output like:
+
+```
+foo="bar"
 ```
 
 Delete Pod.
@@ -296,7 +383,7 @@ kubectl delete -f pod-downward.yaml
 
 ### Create persistent volumes
 
-Edit `pv-1g.yaml`
+Create a new file  `pv-1g.yaml`
 
 ```
 apiVersion: v1
@@ -314,11 +401,7 @@ spec:
     path: "/data/pv-1g"
 ```
 
-```
-kubectl apply -f pv-1g.yaml
-```
-
-Edit `pv-3g.yaml`
+Create a new file  `pv-3g.yaml`
 
 ```
 apiVersion: v1
@@ -336,17 +419,28 @@ spec:
     path: "/data/pv-3g"
 ```
 
+Deploy persisten volume.
+
 ```
+kubectl apply -f pv-1g.yaml
 kubectl apply -f pv-3g.yaml
 ```
 
 Check persistent volumes status.
 
 ```
-kubectl get pv
+kubectl get persistentvolume
 ```
 
-Edit `pvc-2g.yaml`
+We should get output like:
+
+```
+NAME    CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+pv-1g   1Gi        RWO            Retain           Available                                   16s
+pv-3g   3Gi        RWO            Retain           Available                                   14s
+```
+
+Create a new file  `pvc-2g.yaml`
 
 ```
 apiVersion: v1
@@ -364,6 +458,8 @@ spec:
     requests:
       storage: 2Gi
 ```
+
+Deploy persisten volume claim.
 
 ```
 kubectl apply -f pvc-2g.yaml
