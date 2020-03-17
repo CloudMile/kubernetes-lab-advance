@@ -419,7 +419,7 @@ spec:
     path: "/data/pv-3g"
 ```
 
-Deploy persisten volume.
+Deploy persistent volume.
 
 ```
 kubectl apply -f pv-1g.yaml
@@ -468,7 +468,7 @@ kubectl apply -f pvc-2g.yaml
 Check persistent volumes status.
 
 ```
-kubectl get pvc,pv
+kubectl get persistentvolumeclaim,persistentvolume
 ```
 
 Edit `pod-pvc.yaml`
@@ -502,7 +502,7 @@ kubectl apply -f pod-pvc.yaml
 Check persistent volumes status.
 
 ```
-kubectl get pvc,pv
+kubectl get persistentvolumeclaim,persistentvolume
 ```
 
 Add file.
