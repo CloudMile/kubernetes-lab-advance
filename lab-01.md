@@ -459,7 +459,7 @@ spec:
       storage: 2Gi
 ```
 
-Deploy persisten volume claim.
+Deploy persistent volume claim.
 
 ```
 kubectl apply -f pvc-2g.yaml
