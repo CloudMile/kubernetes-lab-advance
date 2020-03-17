@@ -17,24 +17,6 @@ You can use below command instand of above command.
 docker build -t gcr.io/$DEVSHELL_PROJECT_ID/hello-node:v1 .
 ```
 
-## Note 2:
-
-In section __Roll out an upgrade to your service__, there's a typo.
-
-The command
-
-```
-docker push gcr.io/PROJECT_ID/hello-node:v1
-```
-
-should be
-
-```
-docker push gcr.io/PROJECT_ID/hello-node:v2
-```
-
-replcase `PROJECT_ID` with the prohect id, or use environment variable `DEVSHELL_PROJECT_ID`.
-
 ----
 
 Rrequirement
