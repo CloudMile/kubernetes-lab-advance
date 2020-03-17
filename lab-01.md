@@ -1,5 +1,38 @@
 # Lab 01 - Using Volume
 
+We use [KataCota](https://www.katacoda.com/) as playground.
+
+This lab is on the environment: [Deploy Containers Using YAML](https://www.katacoda.com/courses/kubernetes/creating-kubernetes-yaml-definitions).
+
+Click "START SCENARIO".
+
+The environment provide We need the editor and terminal. We need to wait the minibuke ready.
+
+```
+minikube start --wait=false
+$
+$ minikube start --wait=false
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ...
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Done! kubectl is now configured to use "minikube"
+```
+
+The lab environemnt screenshot:
+
+![](lab01/lab01-01.png)
+
+
+We can click mouse right on the `/root` to create new files:
+
+![](lab01/lab01-02.png)
+
 ## Shared volume
 
 Edit `pod-shared-volume.yaml`
