@@ -132,7 +132,7 @@ We get the External IP of service `helloweb-lb`: `10.110.71.15`.
 
 ## Problem 02
 
-Try to access the External IP(L4 Load Balancer).
+Try to access the External IP of service `helloweb-lb`.(L4 Load Balancer).
 
 ```
 curl EXTERNAL_IP
@@ -150,7 +150,7 @@ curl: (7) Failed to connect to 10.110.71.15 port 80: Connection refused
 Check the Pod is runiing.
 
 ```
-kubectl ge pod
+kubectl get pod
 ```
 
 We get below:
@@ -178,9 +178,9 @@ Events:
   Warning  FailedMount  26s (x8 over 90s)  kubelet, minikube  MountVolume.SetUp failed for volume "nginx-html" : configmap "nginx-html-notfound" not found
 ```
 
-It seems the pod mount volume fails.
+It seems the pod mount volume fail.
 
-Edit `app.yaml`, fixed the ConfigMap name form `nginx-html` to `nginx-html`.
+Edit `app.yaml`, fixed the ConfigMap name form `nginx-html-notfound` to `nginx-html`.
 
 ```
 apiVersion: apps/v1
@@ -241,6 +241,8 @@ We got the "ImagePullBackOff"...
 
 <details>
   <summary>How to fix it?</summary>
+
+"ImagePullBackOff" means kubernetes can not pull the container image.
 
 Edit `app.yaml`, fixed the image name form `nginx:notfound` to `nginx`.
 
