@@ -1,4 +1,4 @@
-# Lab 09 - Troubleshooting
+# Lab 08 - Troubleshooting
 
 We use [KataCota](https://www.katacoda.com/) as playground.
 
