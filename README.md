@@ -8,9 +8,8 @@
 * [Lab 04 - Using Job](lab-04.md)
 * [Lab 05 - Create a GKE cluster](lab-05.md)
 * [Lab 06 - DNS configuration](lab-06.md)
-* [Lab 07 - L4 Load Balancer](lab-07.md)
-* [Lab 08 - L7 Load Balancer](lab-08.md)
-* [Lab 09 - Troubleshooting](lab-09.md)
+* [Lab 07 - L4 & L7 Load Balancer](lab-07.md)
+* [Lab 08 - Troubleshooting](lab-08.md)
 
 ## Qwiklabs
 
