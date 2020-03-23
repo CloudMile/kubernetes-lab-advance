@@ -36,7 +36,7 @@ We can click mouse right on the `/root` to create new files:
 ## Lab Target
 
 ```
-L4 Load Balancer -> Service -> Deployment -> Pod Nginx -> COnfigMap
+L4 Load Balancer -> Service -> Deployment -> Pod Nginx -> ConfigMap
 ```
 
 We can send http request to L4 Load Balancer and get response: `Hello World!!!`.
